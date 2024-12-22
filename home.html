@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add New Task</h5>
+                <task-form on-add-task="addTask(newTask)" categories="categories"></task-form>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Filter Tasks</h5>
+                <input type="text" class="form-control mb-2" ng-model="taskFilter" placeholder="Search tasks...">
+                <select class="form-select mb-2" ng-model="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+                </select>
+                <select class="form-select" ng-model="priorityFilter">
+                    <option value="">All Priorities</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h2>{{ 'task list' | capitalize }}</h2>
+        <ul class="list-group">
+            <task-item ng-repeat="task in tasks | filter:taskFilter | filter:{category: categoryFilter} | filter:{priority: priorityFilter}"
+                       task="task" 
+                       on-toggle="toggleComplete(task)"
+                       on-delete="deleteTask(task)"
+                       class="list-group-item task-item"
+                       ng-class="{'completed': task.completed, 
+                                  'high-priority': task.priority === 'high',
+                                  'medium-priority': task.priority === 'medium',
+                                  'low-priority': task.priority === 'low'}">
+            </task-item>
+        </ul>
+    </div>
+</div>
+
